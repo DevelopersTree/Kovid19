@@ -3,7 +3,7 @@ COVID-19 statistics in Kurdistan as reported by KRG's department of Media and In
 
 ### Schema
  - `Date`: [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) date format.
- - `Hawler`: New cases in Halwer (Erbil).
+ - `Hawler`: New cases in Hawler (Erbil).
  - `Sulaymani`: New cases in Sulaymani.
  - `Duhok`: New cases in Duhok.
  - `Halabja`: New cases in Halabja.
