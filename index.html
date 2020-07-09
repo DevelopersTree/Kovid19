@@ -62,10 +62,9 @@
     <!-- Application Logic -->
     <script>
         $(document).ready(function(){
-
-            // $('.last-update').html(moment().format('LLL').toString());
-
             $.getJSON("./data/summary.json", function(data){
+                $('#last-update').html(moment(data.LastUpdate).format('LLL').toString());
+                
                 let html = ``;
                 data.Days.sort(function compare(a, b) {
                     var dateA = new Date(a.Date);
@@ -187,9 +186,8 @@
             <div class="row">
                 <div class="col">
                     <h6 class="header-txt text-success">
-                       <!-- دواین نوێکردنەوەکان
-                       <span class="last-update text-danger"></span> -->
-                       چەند کاتژمێر جارێک زانیاریەکان خۆکارانە نوێدەبنەوە
+                        دوایین نوێکردنەوە:
+                       <span id='last-update' class="last-update text-danger"></span>
                     </h6>
                 </div>
             </div>
