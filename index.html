@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سەرژمێریەکانی کۆرۆنا لە هەرێمی کوردستان</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77029418-3"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.16/lodash.min.js"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
+    
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-77029418-3');
+    </script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+    
+    <style>
+        @font-face {
+            font-family: 'main-font';
+            src:  url('./assets/Rabar_014.ttf')  format('truetype');
+        }
+       
+        h2, .header-txt, h1, th,td{
+            font-family: 'main-font';
+        }
+        .header-txt{
+            text-align: center;
+        }
+        
+        body{
+            direction: rtl;
+            text-align: right;
+        }
+        .last-update{
+            font-size: 15px;
+        }
+    </style>
+
+    <!-- Application Logic -->
+    <script>
+        $(document).ready(function(){
+
+            // $('.last-update').html(moment().format('LLL').toString());
+
+            $.getJSON("./data/days.json", function(data){
+                let html = ``;
+                data.sort(function compare(a, b) {
+                    var dateA = new Date(a.Date);
+                    var dateB = new Date(b.Date);
+                    return dateB - dateA;
+                });
+                data.forEach((record, i)=>{
+                    html+= `
+                        <tr>
+                            <td>${i+1}</td>
+                            <td>${moment(record.Date).locale('ku').format('LLL').toString()}</td>
+                            <td>${numberWithCommas(record.Hawler)}</td>
+                            <td>${numberWithCommas(record.Sulaymani)}</td>
+                            <td>${numberWithCommas(record.Duhok)}</td>
+                            <td>${numberWithCommas(record.Halabja)}</td>
+                            <td>${numberWithCommas(record.Total)}</td>
+                            <td>${numberWithCommas(record.RunningSum)}</td>
+                        </tr>
+                    `;
+                });
+                $('.records').html(html);
+
+                // Chart Data Logic
+                data.sort(function compare(a, b) {
+                    var dateA = new Date(a.Date);
+                    var dateB = new Date(b.Date);
+                    return dateA - dateB;
+                });
+                var groupedRecords = _.groupBy(data, function (r) {
+                    return moment(r.Date).format('YYYY-MM-DD');
+                });
+                const dates = data.map((r)=>moment(r.Date).format('YYYY-MM-DD'));
+                
+                const chartData = {
+                    Hawler: [],
+                    Sulaymani: [],
+                    Duhok: [],
+                    Halabja: [],
+                };
+                dates.slice(Math.max(dates.length - 30, 0)).forEach((d)=>{
+                    const [r] = groupedRecords[d];
+                    if(r){
+                        chartData.Hawler.push(r.Hawler)
+                        chartData.Sulaymani.push(r.Sulaymani)
+                        chartData.Duhok.push(r.Duhok)
+                        chartData.Halabja.push(r.Halabja)
+                    } else {
+                        chartData.Hawler.push(0)
+                        chartData.Sulaymani.push(0)
+                        chartData.Duhok.push(0)
+                        chartData.Halabja.push(0)
+                    }
+                });
+                var ctx = document.getElementById('chart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'line',
+                    label: "hahah",
+                    data: {
+                        labels: dates.slice(Math.max(dates.length - 30, 0)).map((d)=> moment(d).locale('ku').format('YYYY-MM-DD')),
+                        datasets: [
+                            {
+                                fill: false,
+                                label: 'هەولێر',
+                                backgroundColor: '#1abc9c',
+                                borderColor: '#1abc9c',
+                                data: chartData.Hawler
+                            },
+                            {
+                                fill: false,
+                                label: 'دهۆک',
+                                backgroundColor: '#e74c3c',
+                                borderColor: '#e74c3c',
+                                data: chartData.Duhok
+                            },
+                            {
+                                fill: false,
+                                label: 'سلێمانی',
+                                backgroundColor: '#8e44ad',
+                                borderColor: '#8e44ad',
+                                data: chartData.Sulaymani
+                            },
+                            {
+                                fill: false,
+                                label: 'هەڵەبجە',
+                                backgroundColor: '#7f8c8d',
+                                borderColor: '#7f8c8d',
+                                data: chartData.Halabja
+                            },
+                        ]
+                    },
+                    options: {}
+                });
+
+            });
+            
+        });
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="grid ">
+            <div class="row mt-5">
+                <div class="col">
+                    <h1 class="header-txt">
+                        سەرژمێریەکانی کۆرۆنا لە هەرێمی کوردستان
+                    </h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h6 class="header-txt text-success">
+                       <!-- دواین نوێکردنەوەکان
+                       <span class="last-update text-danger"></span> -->
+                       چەند کاتژمێر جارێک زانیاریەکان خۆکارانە نوێدەبنەوە
+                    </h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                   <a href="https://github.com/DevelopersTree/Kovid19" alt="سەرژمێری کۆرۆنا لە هەرێمی کوردستان">گیتهەب</a> /
+                   <a href="https://devstree.io" alt="">درەختی گەشەپێدەران</a>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col">
+                    <canvas id="chart"></canvas>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col">
+                        <table class="table  table-hover table-sm">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>بەروار</th>
+                                <th>هەولێر</th>
+                                <th>سلێمانی</th>
+                                <th>دهۆک</th>
+                                <th>هەڵەبجە</th>
+                                <th>تووشبوان/رۆژ</th>
+                                <th>کۆی توشبوان</th>
+                            </tr>
+                            </thead>
+                            <tbody class="records">
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
