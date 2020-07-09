@@ -1,5 +1,5 @@
 ## Kovid19
-COVID-19 statistics in Kurdistan as reported by KRG's department of Media and Information. This repository gets updated automatically every our. The data is fetched from https://gov.krd/coronavirus-en/dashboard/.
+COVID-19 statistics in Kurdistan as reported by KRG's department of Media and Information. This repository gets updated automatically. The data is fetched from https://gov.krd/coronavirus-en/dashboard/.
 
 ### Schema
  - `Date`: [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) date format.
