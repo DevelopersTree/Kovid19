@@ -65,7 +65,7 @@
 
             // $('.last-update').html(moment().format('LLL').toString());
 
-            $.getJSON("./data/days.json", function(data){
+            $.getJSON("./data/summary.json", function(data){
                 let html = ``;
                 data.sort(function compare(a, b) {
                     var dateA = new Date(a.Date);
