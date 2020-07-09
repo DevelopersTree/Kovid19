@@ -19,6 +19,8 @@ This file contains the summary of all of the governorates for each day:
  - `Recovered`: Number of recovered people in Kurdistan on that day.
  - `RunningSum`: Total confirmed cases in Kurdistan.
  - `Active`: Total number of Active cases in Kurdistan.
+ 
+The JSON file also contains a `LastUpdated` field that contains the date KRG has updated the data.
 
 ### [Governorates](/data/governorates)
 These files contain more detailed data about each governorate:
@@ -39,3 +41,5 @@ These files contain more detailed data about each governorate:
  - `TotalRecovered`:  Total number of recovered people in the governorate.
  - `TotalDeaths`:  Total number of deaths in the governorate.
  - `ActiveCases`: Total number of active cases in the governorate.
+ 
+ The JSON file also contains a `LastUpdated` field that contains the date KRG has updated the data.
