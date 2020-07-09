@@ -25,13 +25,13 @@ These files contain more detailed data about each governorate:
  - `Date`: [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) date format.     
  - `Male`: New male cases. 
  - `Female`:  New female cases. 
- - `Age0To19`:  New cases for 0 - 19 age group. 
- - `Age20To29`:  New cases for 20 - 29 age group. 
- - `Age30To39`:  New cases for 30 - 39 age group.  
- - `Age40To49`:  New cases for 40 - 49 age group. 
- - `Age50To59`: New cases for 50 - 59 age group. 
- - `Age60To69`: New cases for 60 - 69 age group.   
- - `Age70OrMore`: New cases for +70 age group. 
+ - `Age0To19`:  New cases for the 0 - 19 age group. 
+ - `Age20To29`:  New cases for the 20 - 29 age group. 
+ - `Age30To39`:  New cases for the 30 - 39 age group.  
+ - `Age40To49`:  New cases for the 40 - 49 age group. 
+ - `Age50To59`: New cases for the 50 - 59 age group. 
+ - `Age60To69`: New cases for the 60 - 69 age group.   
+ - `Age70OrMore`: New cases for the +70 age group. 
  - `TotalNewCases`: Total new cases of the day.
  - `Recovered`:  Number of recovered people of the day. 
  - `Deaths`:  Number of deaths on that day.
