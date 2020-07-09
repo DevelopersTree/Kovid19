@@ -63,7 +63,7 @@
     <script>
         $(document).ready(function(){
             $.getJSON("./data/summary.json", function(data){
-                $('#last-update').html(moment(data.LastUpdate).toString());
+                $('#last-update').html(moment(data.LastUpdated).add(3, 'hours').format('LLL').toString());
                 
                 let html = ``;
                 data.Days.sort(function compare(a, b) {
