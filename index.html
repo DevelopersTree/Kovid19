@@ -67,12 +67,12 @@
 
             $.getJSON("./data/summary.json", function(data){
                 let html = ``;
-                data.sort(function compare(a, b) {
+                data.days.sort(function compare(a, b) {
                     var dateA = new Date(a.Date);
                     var dateB = new Date(b.Date);
                     return dateB - dateA;
                 });
-                data.forEach((record, i)=>{
+                data.days.forEach((record, i)=>{
                     html+= `
                         <tr>
                             <td>${i+1}</td>
@@ -96,15 +96,15 @@
                     }
                 })
                 // Chart Data Logic
-                data.sort(function compare(a, b) {
+                data.days.sort(function compare(a, b) {
                     var dateA = new Date(a.Date);
                     var dateB = new Date(b.Date);
                     return dateA - dateB;
                 });
-                var groupedRecords = _.groupBy(data, function (r) {
+                var groupedRecords = _.groupBy(data.days, function (r) {
                     return moment(r.Date).format('YYYY-MM-DD');
                 });
-                const dates = data.map((r)=>moment(r.Date).format('YYYY-MM-DD'));
+                const dates = data.days.map((r)=>moment(r.Date).format('YYYY-MM-DD'));
                 
                 const chartData = {
                     Hawler: [],
