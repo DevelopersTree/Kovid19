@@ -110,6 +110,7 @@
                     Sulaymani: [],
                     Duhok: [],
                     Halabja: [],
+                    All: [],
                 };
                 dates.slice(Math.max(dates.length - 30, 0)).forEach((d)=>{
                     const [r] = groupedRecords[d];
@@ -118,11 +119,13 @@
                         chartData.Sulaymani.push(r.Sulaymani)
                         chartData.Duhok.push(r.Duhok)
                         chartData.Halabja.push(r.Halabja)
+                        chartData.All.push(r.Halabja+r.Duhok+r.Sulaymani+r.Erbil)
                     } else {
                         chartData.Erbil.push(0)
                         chartData.Sulaymani.push(0)
                         chartData.Duhok.push(0)
                         chartData.Halabja.push(0)
+                        chartData.All.push(0)
                     }
                 });
                 var ctx = document.getElementById('chart').getContext('2d');
@@ -159,6 +162,13 @@
                                 backgroundColor: '#7f8c8d',
                                 borderColor: '#7f8c8d',
                                 data: chartData.Halabja
+                            },
+                            {
+                                fill: false,
+                                label: 'هەموو',
+                                backgroundColor: '#2d3436',
+                                borderColor: '#2d3436',
+                                data: chartData.All
                             },
                         ]
                     },
